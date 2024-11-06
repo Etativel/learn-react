@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-const COLORS = ["pink", "green", "blue", "yellow", "purple"];
+const COLORS = ["pink", "green", "blue", "yellow", "gray", "purple", "brown"];
 
 function BackgroundChanger() {
-  const [backgroundColor, setBackgroundColor] = useState("pink");
+  const [backgroundColor, setBackgroundColor] = useState(COLORS[0]);
   function handleChangeColor(color) {
     setBackgroundColor(color);
   }

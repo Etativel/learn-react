@@ -4,7 +4,7 @@ import Todo from "./exercise/TodoApp";
 import BackgroundChanger from "./exercise/BackgroundChanger";
 
 function App() {
-  const [currentPage, setCurrentPage] = useState("todo");
+  const [currentPage, setCurrentPage] = useState("");
   function changePage(page) {
     setCurrentPage(page);
   }
