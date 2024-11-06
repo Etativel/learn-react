@@ -1,9 +1,9 @@
 import { useState } from "react";
 import "./App.css";
 
-function DeleteTodo({ index, onDelete }) {
+function DeleteTodo({ id, onDelete }) {
   function handleClick() {
-    onDelete(index);
+    onDelete(id);
   }
   return <button onClick={handleClick}>Delete</button>;
 }
@@ -12,9 +12,9 @@ function TodoList({ todo, onDelete }) {
   return (
     <ul>
       {todo.map((todo, index) => (
-        <li key={index}>
-          {index + 1}. {todo}
-          <DeleteTodo index={index} onDelete={onDelete} />
+        <li key={todo.id}>
+          {index + 1}. {todo.todo + " "}
+          <DeleteTodo id={todo.id} onDelete={onDelete} />
         </li>
       ))}
     </ul>
@@ -27,8 +27,12 @@ function App() {
 
   function addTodo() {
     const newTodo = document.querySelector(".todoInput").value;
+    const todoObject = {
+      id: crypto.randomUUID(),
+      todo: newTodo,
+    };
     if (newTodo) {
-      const updateTodo = [...todo, newTodo];
+      const updateTodo = [...todo, todoObject];
       setTodo(updateTodo);
       localStorage.setItem("todo", JSON.stringify(updateTodo));
       document.querySelector(".todoInput").value = "";
@@ -41,8 +45,8 @@ function App() {
     }
   }
 
-  function deleteTodo(index) {
-    const updatedTodo = todo.filter((_, i) => i !== index);
+  function deleteTodo(id) {
+    const updatedTodo = todo.filter((todo) => todo.id !== id);
     setTodo(updatedTodo);
     localStorage.setItem("todo", JSON.stringify(updatedTodo));
   }
