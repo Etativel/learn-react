@@ -19,6 +19,10 @@ function App() {
       >
         Change Background
       </button>
+      <button className="btn" onClick={() => changePage("queryFilter")}>
+        Query Filter
+      </button>
+
       {(() => {
         switch (currentPage) {
           case "todo":
