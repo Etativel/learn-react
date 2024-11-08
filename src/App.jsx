@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import Todo from "./exercise/TodoApp";
 import BackgroundChanger from "./exercise/BackgroundChanger";
-
+import FilterableList from "./exercise/textQuery";
 function App() {
   const [currentPage, setCurrentPage] = useState("");
   function changePage(page) {
@@ -25,6 +25,8 @@ function App() {
             return <Todo />;
           case "changeBackgroundColor":
             return <BackgroundChanger />;
+          case "queryFilter":
+            return <FilterableList />;
         }
       })()}
     </>

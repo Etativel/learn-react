@@ -2,6 +2,23 @@ import { useState } from "react";
 
 const COLORS = ["pink", "green", "blue", "yellow", "gray", "purple", "brown"];
 
+function Component() {
+  const [count, setCount] = useState(0);
+  function handleClick() {
+    setCount((count) => {
+      return count + 1;
+    });
+    // setCount((count) => count + 1);
+  }
+
+  return (
+    <>
+      <button onClick={handleClick}>Count up</button>
+      <h1>{count}</h1>
+    </>
+  );
+}
+
 function BackgroundChanger() {
   const [backgroundColor, setBackgroundColor] = useState(COLORS[0]);
   const [count, setCount] = useState(0);
@@ -37,6 +54,7 @@ function BackgroundChanger() {
             {color}
           </button>
         ))}
+        <Component />
       </div>
     </div>
   );
