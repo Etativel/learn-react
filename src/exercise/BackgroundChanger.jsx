@@ -1,9 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const COLORS = ["pink", "green", "blue", "yellow", "gray", "purple", "brown"];
 
+function Clock() {
+  const [counter, setCounter] = useState(0);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCounter((counter) => counter + 1);
+    }, 1000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  return <p>{counter} seconds have passed.</p>;
+}
+
 function Component() {
   const [count, setCount] = useState(0);
+  console.log(count);
   function handleClick() {
     setCount((count) => {
       return count + 1;
@@ -39,6 +55,9 @@ function BackgroundChanger() {
       }}
     >
       <h2>Color has been change {count} times</h2>
+      <h2>
+        <Clock />
+      </h2>
       <div className="buttonContainer">
         {COLORS.map((color) => (
           <button
