@@ -3,6 +3,7 @@ import "./App.css";
 import Todo from "./exercise/TodoApp";
 import BackgroundChanger from "./exercise/BackgroundChanger";
 import FilterableList from "./exercise/textQuery";
+import CLassInput from "./exercise/ClassComponent";
 function App() {
   const [currentPage, setCurrentPage] = useState("");
   function changePage(page) {
@@ -23,6 +24,10 @@ function App() {
         Query Filter
       </button>
 
+      <button className="btn" onClick={() => changePage("classComponent")}>
+        Class Based Component
+      </button>
+
       {(() => {
         switch (currentPage) {
           case "todo":
@@ -31,6 +36,8 @@ function App() {
             return <BackgroundChanger />;
           case "queryFilter":
             return <FilterableList />;
+          case "classComponent":
+            return <CLassInput />;
         }
       })()}
     </>
