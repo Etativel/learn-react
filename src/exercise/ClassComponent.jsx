@@ -1,113 +1,136 @@
 import { Component } from "react";
 
+class Count extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return <span>{this.props.todos.length}</span>;
+  }
+}
+
 class ClassInput extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      todos: [{ id: 1, value: "valu" }],
+      todos: [
+        { id: 2, value: "walk" },
+        { id: 1, value: "run" },
+      ],
       inputVal: { id: "", value: "" },
-      index: null,
+      editVal: { id: "", value: "" },
+      editId: "",
+      editIndex: "",
     };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
     this.handleEditSubmit = this.handleEditSubmit.bind(this);
+    this.handleEditInputChange = this.handleEditInputChange.bind(this);
   }
 
-  handleChange(e) {
+  handleInputChange(e) {
     this.setState({
-      inputVal: { ...this.state.inputVal, value: e.target.value },
+      inputVal: { id: "", value: e.target.value },
+    });
+  }
+
+  handleEditInputChange(e) {
+    this.setState({
+      editVal: { id: this.state.editId, value: e.target.value },
     });
   }
 
   handleSubmit(e) {
     e.preventDefault();
-    if (!this.state.inputVal.value.trim()) {
-      alert("It cannot be empty");
+    if (this.state.inputVal.value === "") {
+      alert("This field cannot be empty");
       return;
     }
-    const newTask = {
-      id: crypto.randomUUID(),
-      value: this.state.inputVal.value,
-    };
-
+    const newTask = this.state.inputVal;
+    newTask.id = crypto.randomUUID();
     this.setState((state) => ({
-      inputVal: { id: "", value: "" },
       todos: state.todos.concat(newTask),
-      index: null,
+      inputVal: { id: "", value: "" },
     }));
   }
 
-  handleEditSubmit(e) {
+  handleEditSubmit(e, index) {
     e.preventDefault();
-    if (!this.state.inputVal.value.trim()) {
-      alert("It cannot be empty");
+    if (this.state.editVal.value === "") {
+      alert("This field cannot be empty");
       return;
     }
+    const removeEditedToDo = [...this.state.todos];
+    removeEditedToDo[index] = this.state.editVal;
 
-    const updatedTodos = this.state.todos.map((todo) =>
-      todo.id === this.state.index
-        ? { ...todo, value: this.state.inputVal.value }
-        : todo
-    );
-
+    console.log(removeEditedToDo);
     this.setState({
-      todos: updatedTodos,
-      inputVal: { id: "", value: "" },
-      index: null, // Clear the edit state
+      editVal: { id: "", value: "" },
+      editId: "",
+      editIndex: "",
+      todos: removeEditedToDo,
     });
   }
 
   handleDelete(id) {
-    const filter = this.state.todos.filter((todo) => todo.id !== id);
-    this.setState({
-      inputVal: { id: "", value: "" },
-      todos: filter,
-    });
+    const updatedTask = this.state.todos.filter((todo) => todo.id !== id);
+    console.log(updatedTask);
+    this.setState((state) => ({
+      ...state,
+      todos: updatedTask,
+    }));
   }
 
   handleEdit(id) {
-    const todoToEdit = this.state.todos.find((todo) => todo.id === id);
-    this.setState({
-      inputVal: { id, value: todoToEdit.value },
-      index: id,
-    });
+    const todoToEdit = this.state.todos.filter((todo) => todo.id === id);
+    console.log(todoToEdit);
+    this.setState((state) => ({
+      ...state,
+      editId: id,
+      editVal: todoToEdit[0],
+    }));
   }
 
   render() {
     return (
       <section>
+        {console.log(this.state)}
         <h3>{this.props.name}</h3>
-
         <form onSubmit={this.handleSubmit}>
           <label htmlFor="task-entry">Enter a task: </label>
           <input
             type="text"
             name="task-entry"
             value={this.state.inputVal.value}
-            onChange={this.handleChange}
+            onChange={this.handleInputChange}
           />
           <button type="submit">Submit</button>
         </form>
         <h4>
-          There is <Count todos={this.state.todos} /> todo on the list
+          There is <Count todos={this.state.todos} /> todos in the list
         </h4>
 
+        {/* The list of all the To-Do's, displayed */}
         <ul>
-          {this.state.todos.map((todo) => (
+          {this.state.todos.map((todo, index) => (
             <li key={todo.id}>
-              {this.state.index === todo.id ? (
-                <form onSubmit={this.handleEditSubmit}>
+              {this.state.editId === todo.id ? (
+                <>
                   <input
                     type="text"
-                    value={this.state.inputVal.value}
-                    onChange={this.handleChange}
+                    name="edit-entry"
+                    value={this.state.editVal.value}
+                    onChange={this.handleEditInputChange}
                   />
-                  <button type="submit">Update</button>
-                </form>
+                  <button onClick={(e) => this.handleEditSubmit(e, index)}>
+                    Update
+                  </button>
+                </>
               ) : (
                 <>
                   {todo.value}
@@ -122,12 +145,6 @@ class ClassInput extends Component {
         </ul>
       </section>
     );
-  }
-}
-
-class Count extends Component {
-  render() {
-    return <span>{this.props.todos.length}</span>;
   }
 }
 
