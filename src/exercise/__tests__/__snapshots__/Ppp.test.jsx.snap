@@ -1,0 +1,16 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`App > Ppp componenet 1`] = `
+<div>
+  <div
+    class="headline"
+  >
+    <h1>
+      react
+    </h1>
+    <button>
+      Click me
+    </button>
+  </div>
+</div>
+`;
