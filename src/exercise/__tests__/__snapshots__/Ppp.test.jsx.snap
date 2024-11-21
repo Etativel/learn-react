@@ -8,6 +8,9 @@ exports[`App > Ppp componenet 1`] = `
     <h1>
       react
     </h1>
+    <p>
+      react
+    </p>
     <button>
       Click me
     </button>

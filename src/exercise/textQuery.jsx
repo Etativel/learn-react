@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from "prop-types";
 
 export default function FilterableList() {
   const [query, setQuery] = useState("");
@@ -23,6 +24,11 @@ function SearchBar({ query, handleChange }) {
   );
 }
 
+SearchBar.propTypes = {
+  query: PropTypes.string,
+  handleChange: PropTypes.func,
+};
+
 function List({ items }) {
   return (
     <table>
@@ -37,6 +43,10 @@ function List({ items }) {
     </table>
   );
 }
+
+List.propTypes = {
+  items: PropTypes.string,
+};
 
 function filterList(items, query) {
   const lowerQuery = query.toLowerCase();
